@@ -71,18 +71,17 @@ def test_read_users(cliente):
 
 
 def test_update_user(cliente):
-    # with pytest.raises(HTTPException) as e:
-    #     cliente.put(
-    #         "/users/0",
-    #         json={
-    #             "username": "bob",
-    #             "email": "bob@example.com",
-    #             "password": "mynewpassword",
-    #         },
-    #     )
-    #
-    # assert e.value.status_code == HTTPStatus.NOT_FOUND
-    # assert e.value.detail == "User not found"
+    response = cliente.put(
+        "/users/0",
+        json={
+            "username": "bob",
+            "email": "bob@example.com",
+            "password": "mynewpassword",
+        },
+    )
+
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json() == {"detail": "User not found"}
 
     response = cliente.put(
         "/users/1",
