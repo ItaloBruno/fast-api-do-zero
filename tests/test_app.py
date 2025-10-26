@@ -100,6 +100,35 @@ def test_update_user(cliente):
     }
 
 
+def test_error_user_not_found_update_user(cliente):
+    resposta = cliente.put(
+        "/users/5",
+        json={
+            "username": "bob",
+            "email": "bob@example.com",
+            "password": "mynewpassword",
+        },
+    )
+    assert resposta.status_code == HTTPStatus.NOT_FOUND
+    assert resposta.json() == {"detail": "User not found"}
+
+
+def test_get_user_by_id(cliente):
+    response = cliente.get("/users/1")
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {
+        "username": "bob",
+        "email": "bob@example.com",
+        "id": 1,
+    }
+
+
+def test_error_user_not_found_get_user_by_id(cliente):
+    response = cliente.get("/users/5")
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json() == {"detail": "User not found"}
+
+
 def test_delete_user(cliente):
     response = cliente.delete("/users/1")
 
